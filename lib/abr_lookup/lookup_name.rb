@@ -31,7 +31,7 @@ module AbrLookup
       attributes.stringify_keys
     end
 
-    def lookup_abn!
+    def lookup_abn_name!
       parse_abn_response(perform_abn_lookup)
       self
     end
