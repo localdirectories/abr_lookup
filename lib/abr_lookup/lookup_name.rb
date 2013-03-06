@@ -68,7 +68,7 @@ module AbrLookup
 
     def perform_abn_lookup_name
       query = "name=#{URI.escape(lookup_name)}&postcode=&legalName=&tradingName=&NSW=&SA=&ACT=&VIC=&WA=&NT=&QLD=&TAS=&authenticationGuid=#{AbrLookup.guid}"
-      uri = AbrLookup.abn_lookup_uri.dup
+      uri = AbrLookup.abn_lookup_name_uri.dup
       uri.query = query
       Net::HTTP.get_response(uri).body
     end
