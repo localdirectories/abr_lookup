@@ -12,7 +12,8 @@ module AbrLookup
     attr_reader :lookup_number
     attr_accessor :abn, :current, :effective_from, :effective_to, :entity_status,
                   :entity_type, :entity_type_description, :given_name,
-                  :family_name, :trading_name, :state_code, :postcode
+                  :family_name, :trading_name, :state_code, :postcode,
+                  :entity_name, :other_given_name
 
     def initialize(lookup_number)
       @lookup_number = lookup_number.to_s.gsub(/([^\w]|_)/, '')
@@ -23,7 +24,7 @@ module AbrLookup
       if errors.present?
         attrs[:errors] = errors.full_messages.join(", ")
       else
-        ATTRIBUTES.inject(attrs){|hash, attr| hash[attr] = send(attr) if send(attr).present?; hash }
+        ATTRIBUTES.inject(attrs) { |hash, attr| hash[attr] = send(attr) if send(attr).present?; hash }
       end
       attrs
     end
@@ -36,7 +37,7 @@ module AbrLookup
       parse_abn_response(perform_abn_lookup)
       self
     end
-    
+
     def lookup_asic!
       parse_abn_response(perform_asic_lookup)
       self
@@ -52,23 +53,32 @@ module AbrLookup
         # Get the effective dates
         effective_from, effective_to = node.css('entityStatus effectiveFrom').text, node.css('entityStatus effectiveTo').text
         self.effective_from = Date.parse(effective_from) if effective_from.present?
-        self.effective_to   = Date.parse(effective_to  ) if effective_to.present?
-        
+        self.effective_to = Date.parse(effective_to) if effective_to.present?
+
         # Is this abn current
         is_current = node.css('ABN isCurrentIndicator').text
         self.current = !!(is_current && is_current =~ /Y/i)
 
 
-        self.entity_status           = node.css('entityStatus entityStatusCode' ).text.strip
-        self.entity_type             = node.css('entityType entityTypeCode'     ).text.strip
-        self.entity_type_description = node.css('entityType entityDescription'  ).text.strip
+        self.entity_status = node.css('entityStatus entityStatusCode').text.strip
+        self.entity_type = node.css('entityType entityTypeCode').text.strip
+        self.entity_type_description = node.css('entityType entityDescription').text.strip
 
-        self.given_name  = node.css('legalName givenName').text.strip
+
+        self.given_name = node.css('legalName givenName').text.strip
         self.family_name = node.css('legalName familyName').text.strip
+        self.other_given_name = node.css('legalName otherGivenName').text.strip
 
-        self.trading_name = node.css('mainTradingName organisationName'             ).first.try(:text).try(:strip)
-        self.state_code   = node.css('mainBusinessPhysicalAddress stateCode' ).first.try(:text).try(:strip)
-        self.postcode     = node.css('mainBusinessPhysicalAddress postcode'  ).first.try(:text).try(:strip)
+        self.trading_name = node.css('mainTradingName organisationName').first.try(:text).try(:strip)
+
+        if self.entity_type == "IND"
+          self.entity_name = "#{self.family_name}, #{self.given_name} #{self.other_given_name}"
+        else
+          self.entity_name = self.trading_name
+        end
+
+        self.state_code = node.css('mainBusinessPhysicalAddress stateCode').first.try(:text).try(:strip)
+        self.postcode = node.css('mainBusinessPhysicalAddress postcode').first.try(:text).try(:strip)
 
         node.css('exception').each do |exception|
           errors.add(exception.css('exceptionCode').text.strip, exception.css('exceptionDescription').text.strip)
@@ -82,7 +92,7 @@ module AbrLookup
       uri.query = query
       Net::HTTP.get_response(uri).body
     end
-    
+
     def perform_asic_lookup
       query = "searchString=#{lookup_number}&includeHistoricalDetails=N&authenticationGuid=#{AbrLookup.guid}"
       uri = AbrLookup.asic_lookup_uri.dup
