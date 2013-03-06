@@ -14,7 +14,7 @@ module AbrLookup
     attr_accessor :search_results
 
     def initialize(lookup_name)
-      @lookup_name = lookup_name.to_s.chop
+      @lookup_name = lookup_name.to_s.strip
       self.search_results = []
     end
 
