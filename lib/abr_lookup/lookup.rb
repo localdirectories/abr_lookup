@@ -9,10 +9,10 @@ module AbrLookup
     include ActiveModel::Naming
     include ActiveModel::Serializers::JSON
 
-    ATTRIBUTES = [:abn, :current, :effective_from, :effective_to, :entity_status, :entity_type, :entity_type_description, :given_name, :family_name, :trading_name, :state_code, :postcode]
-
     attr_reader :lookup_number
-    attr_accessor *ATTRIBUTES
+    attr_accessor :abn, :current, :effective_from, :effective_to, :entity_status,
+                  :entity_type, :entity_type_description, :given_name,
+                  :family_name, :trading_name, :state_code, :postcode
 
     def initialize(lookup_number)
       @lookup_number = lookup_number.to_s.gsub(/([^\w]|_)/, '')
@@ -66,7 +66,7 @@ module AbrLookup
         self.given_name  = node.css('legalName givenName').text.strip
         self.family_name = node.css('legalName familyName').text.strip
 
-        self.trading_name = node.css('mainName organisationName'             ).first.try(:text).try(:strip)
+        self.trading_name = node.css('mainTradingName organisationName'             ).first.try(:text).try(:strip)
         self.state_code   = node.css('mainBusinessPhysicalAddress stateCode' ).first.try(:text).try(:strip)
         self.postcode     = node.css('mainBusinessPhysicalAddress postcode'  ).first.try(:text).try(:strip)
 
