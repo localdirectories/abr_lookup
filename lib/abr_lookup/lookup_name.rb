@@ -1,6 +1,7 @@
 require 'net/http'
 require 'nokogiri'
 require 'active_model'
+require 'uri'
 
 module AbrLookup
   class LookupName
@@ -66,7 +67,7 @@ module AbrLookup
     end
 
     def perform_abn_lookup_name
-      query = "name=#{lookup_name}&postcode=&legalName=&tradingName=&NSW=&SA=&ACT=&VIC=&WA=&NT=&QLD=&TAS=&authenticationGuid=#{AbrLookup.guid}"
+      query = "name=#{URI.escape(lookup_name)}&postcode=&legalName=&tradingName=&NSW=&SA=&ACT=&VIC=&WA=&NT=&QLD=&TAS=&authenticationGuid=#{AbrLookup.guid}"
       uri = AbrLookup.abn_lookup_uri.dup
       uri.query = query
       Net::HTTP.get_response(uri).body
