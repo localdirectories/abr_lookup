@@ -32,7 +32,7 @@ module AbrLookup
     end
 
     def lookup_abn_name!
-      parse_abn_response(perform_abn_lookup)
+      parse_abn_response(perform_abn_lookup_name)
       self
     end
 
