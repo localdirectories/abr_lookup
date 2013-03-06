@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'active_model'
 require 'uri'
 
+
 module AbrLookup
   class LookupName
     include ActiveModel::Conversion
@@ -40,12 +41,14 @@ module AbrLookup
 
     private
     def parse_abn_response(response)
+
       doc = Nokogiri::XML(response)
+
       doc.css('response searchResultsList searchResultsRecord').each do |node|
         # Get the returned abn
         abn = node.css('ABN identifierValue').text
         status = node.css('ABN identifierStatus').text
-        unless node.at_css('mainName')
+        if node.at_css('mainName')
           name = node.css('mainName organisationName').text
           type = "Entity Name"
         else
@@ -57,9 +60,8 @@ module AbrLookup
         state_code = node.css('mainBusinessPhysicalAddress stateCode').first.try(:text).try(:strip)
         postcode = node.css('mainBusinessPhysicalAddress postcode').first.try(:text).try(:strip)
         location = "#{postcode}, #{state_code}"
-        result =  AbrLookup::LookupSearchName.new(abn, status, name, type, location)
+        result = {'abn' => abn, 'status' => status, 'name' => name, 'type' => type, 'location' => location}
         search_results.push(result)
-
         node.css('exception').each do |exception|
           errors.add(exception.css('exceptionCode').text.strip, exception.css('exceptionDescription').text.strip)
         end
@@ -72,7 +74,5 @@ module AbrLookup
       uri.query = query
       Net::HTTP.get_response(uri).body
     end
-
-
   end
 end

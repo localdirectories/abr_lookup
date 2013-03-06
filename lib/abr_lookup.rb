@@ -8,6 +8,7 @@ module AbrLookup
   autoload :Server, 'abr_lookup/server'
   autoload :LookupName, 'abr_lookup/lookup_name'
 
+
   def self.abn_lookup_uri
     @abn_lookup_url ||= URI.parse("http://abr.business.gov.au/abrxmlsearchRPC/AbrXmlSearch.asmx/SearchByABNv201205")
   end
