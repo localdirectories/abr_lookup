@@ -8,7 +8,7 @@ describe AbrLookup do
     end
 
     it "should have the abn_lookup_uri" do
-      AbrLookup.abn_lookup_uri.to_s.should == 'http://abr.business.gov.au/ABRXMLSearchRPC/ABRXMLSearch.asmx/ABRSearchByABN'
+      AbrLookup.abn_lookup_uri.to_s.should == 'http://abr.business.gov.au/abrxmlsearchRPC/AbrXmlSearch.asmx/SearchByABNv201205'
     end
 
     it "should load the configuration from the default path" do

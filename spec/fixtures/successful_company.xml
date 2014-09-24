@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ABRPayloadSearchResults xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://abr.business.gov.au/ABRXMLSearchRPC/literalTypes">
+  <request>
+    <identifierSearchRequest>
+      <authenticationGUID>xxxxxxxxxxxxxxxx</authenticationGUID>
+      <identifierType>ABN</identifierType>
+      <identifierValue>75584793718</identifierValue>
+      <history>Y</history>
+    </identifierSearchRequest>
+  </request>
+  <response>
+    <usageStatement>This extract is based on information supplied by businesses to the Registrar of the Australian Business Register.
+      Neither the Registrar nor the Australian Government guarantee this information is accurate, up to date or complete.
+      You should consider verifying this information from other sources.</usageStatement>
+    <dateRegisterLastUpdated>2014-09-24</dateRegisterLastUpdated>
+    <dateTimeRetrieved>2014-09-24T14:22:29.1349013+10:00</dateTimeRetrieved>
+    <businessEntity201205>
+      <recordLastUpdatedDate>2014-01-23</recordLastUpdatedDate>
+      <ABN>
+        <identifierValue>75584793718</identifierValue>
+        <isCurrentIndicator>Y</isCurrentIndicator>
+        <replacedFrom>0001-01-01</replacedFrom>
+      </ABN>
+      <entityStatus>
+        <entityStatusCode>Active</entityStatusCode>
+        <effectiveFrom>2000-02-24</effectiveFrom>
+        <effectiveTo>0001-01-01</effectiveTo>
+      </entityStatus>
+      <ASICNumber />
+      <entityType>
+        <entityTypeCode>FPT </entityTypeCode>
+        <entityDescription>Family Partnership</entityDescription>
+      </entityType>
+      <goodsAndServicesTax>
+        <effectiveFrom>2000-07-01</effectiveFrom>
+        <effectiveTo>0001-01-01</effectiveTo>
+      </goodsAndServicesTax>
+      <mainName>
+        <organisationName>P F &amp; B K BIGGS</organisationName>
+        <effectiveFrom>2001-05-18</effectiveFrom>
+      </mainName>
+      <mainName>
+        <organisationName>PATRICK F &amp; BEVERLY K BIGGS</organisationName>
+        <effectiveFrom>2000-02-24</effectiveFrom>
+        <effectiveTo>2001-05-18</effectiveTo>
+      </mainName>
+      <mainTradingName>
+        <organisationName>PADDY'S CONSTRUCTIONS</organisationName>
+        <effectiveFrom>2000-02-24</effectiveFrom>
+      </mainTradingName>
+      <mainBusinessPhysicalAddress>
+        <stateCode>QLD</stateCode>
+        <postcode>4879</postcode>
+        <effectiveFrom>2012-08-23</effectiveFrom>
+        <effectiveTo>0001-01-01</effectiveTo>
+      </mainBusinessPhysicalAddress>
+      <mainBusinessPhysicalAddress>
+        <stateCode>QLD</stateCode>
+        <postcode>4879</postcode>
+        <effectiveFrom>2000-02-24</effectiveFrom>
+        <effectiveTo>2012-08-23</effectiveTo>
+      </mainBusinessPhysicalAddress>
+    </businessEntity201205>
+  </response>
+</ABRPayloadSearchResults>

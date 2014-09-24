@@ -5,12 +5,15 @@ require 'erb'
 
 module AbrLookup
   autoload :Lookup, 'abr_lookup/lookup'
+  autoload :ActiveCollection, 'abr_lookup/active_collection'
+  autoload :ActiveStruct, 'abr_lookup/active_struct'
+  autoload :Entity, 'abr_lookup/entity'
   autoload :Server, 'abr_lookup/server'
 
   def self.abn_lookup_uri
     @abn_lookup_url ||= URI.parse("http://abr.business.gov.au/abrxmlsearchRPC/AbrXmlSearch.asmx/SearchByABNv201205")
   end
-  
+
   def self.asic_lookup_uri
     @asic_lookup_url ||= URI.parse("http://abr.business.gov.au/abrxmlsearchRPC/AbrXmlSearch.asmx/SearchByASICv201205")
   end
