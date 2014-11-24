@@ -40,6 +40,24 @@ module AbrLookup
       business_names.active
     end
 
+    def to_h
+      {
+        abn:            abn.to_h,
+        type:           type.to_h,
+        addresses:      addresses.collect(&:to_h),
+        gsts:           gsts.collect(&:to_h),
+        main_names:     main_names.collect(&:to_h),
+        statuses:       statuses.collect(&:to_h),
+        trading_names:  trading_names.collect(&:to_h),
+        business_names: business_names.collect(&:to_h),
+        legal_names:    legal_names.collect(&:to_h)
+      }
+    end
+
+    def as_json
+      to_h.stringify_keys
+    end
+
     class ABN < OpenStruct
       def current?
         !!(is_current && is_current =~ /Y/i)
